@@ -7,8 +7,9 @@ export default function Login() {
   const inputStyle = { width: "275px", height: "35px" };
   const submit = async (e) => {
     axios
-      .get("http://localhost:3000/user/login")
-      .then((value) => console.table(value));
+      .post("http://localhost:3000/auth/login", e)
+      .then((value) => console.log(value.data))
+      .catch((error) => console.error(error.response.data.message));
   };
 
   return (

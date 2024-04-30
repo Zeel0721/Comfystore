@@ -1,19 +1,11 @@
 import { Module } from '@nestjs/common';
 import { userModule } from './user/user.module';
-import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './auth/auth.module';
-import entities from './schema';
+import { MongooseModule } from '@nestjs/mongoose';
 
 @Module({
   imports: [
-    TypeOrmModule.forRoot({
-      type: 'mongodb',
-      host: 'localhost',
-      port: 27017,
-      database: 'ComfyStore',
-      entities: entities,
-      synchronize: true,
-    }),
+    MongooseModule.forRoot('mongodb://localhost:27017/ComfyStore'),
     userModule,
     AuthModule,
   ],

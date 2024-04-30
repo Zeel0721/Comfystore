@@ -1,17 +1,15 @@
-import { ObjectId } from 'mongodb';
-import { Column, Entity, ObjectIdColumn } from 'typeorm';
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 
-@Entity()
+@Schema()
 export class User {
-  @ObjectIdColumn()
-  _id: ObjectId;
-
-  @Column({ unique: true })
+  @Prop({ unique: true })
   username: string;
 
-  @Column({ unique: true })
+  @Prop({ unique: true })
   email: string;
 
-  @Column()
+  @Prop()
   password: string;
 }
+
+export const UserModel = SchemaFactory.createForClass(User);
