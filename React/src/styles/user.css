@@ -33,8 +33,13 @@ body {
   column-gap: 10px;
 }
 #signup-btn,
-#login-btn {
+#login-btn,
+#guest-btn {
   display: flex;
   align-items: center;
-  padding: 18px 50px;
+  padding: 18px 55px;
+}
+#guest-btn {
+  margin-top: 15px;
+  padding: 18px 35px;
 }

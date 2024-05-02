@@ -1,9 +1,10 @@
 import { Button, Form, Input } from "antd";
 import axios from "axios";
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Login() {
+  const navigate = useNavigate();
   const inputStyle = { width: "275px", height: "35px" };
   const submit = async (e) => {
     axios
@@ -50,6 +51,9 @@ export default function Login() {
         </Form.Item>
         <Button id="login-btn" type="primary" htmlType="submit">
           Login
+        </Button>
+        <Button id="guest-btn" type="default" onClick={() => navigate("/")}>
+          Guest Login
         </Button>
         <Form.Item>
           <span className="member-login">
