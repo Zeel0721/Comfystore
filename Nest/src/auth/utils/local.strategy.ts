@@ -13,7 +13,6 @@ export class LocalStartegy extends PassportStrategy(Strategy) {
   }
 
   async validate(username: string, password: string) {
-    console.log(username, password);
     const { accessToken, refreshToken } = await this.authService.validateUser(
       username,
       password,
