@@ -2,14 +2,21 @@ import { Button, Form, Input } from "antd";
 import axios from "axios";
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { globalContext } from "../App";
 
 export default function Login() {
+  const { setAccessToken } = globalContext();
   const navigate = useNavigate();
   const inputStyle = { width: "275px", height: "35px" };
   const submit = async (e) => {
     axios
       .post("http://localhost:3000/auth/login", e)
-      .then((value) => console.log(value.data))
+      .then((value) => {
+        localStorage.setItem("refreshToken", value.data.refreshToken);
+        sessionStorage.setItem("accessToken", value.data.accessToken);
+        setAccessToken(sessionStorage.getItem("accessToken"));
+        navigate("/");
+      })
       .catch((error) => console.error(error.response.data.message));
   };
 

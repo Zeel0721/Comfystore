@@ -43,3 +43,8 @@ body {
   margin-top: 15px;
   padding: 18px 35px;
 }
+.user-name {
+  display: flex;
+  align-items: center;
+  color: var(--grey-font);
+}

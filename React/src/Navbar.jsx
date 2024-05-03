@@ -1,24 +1,40 @@
 import React from "react";
-import { Link, NavLink, Outlet } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
+import { globalContext } from "./App";
 
 export default function Navbar() {
+  const { accessToken, setAccessToken, user } = globalContext();
   const changeTheme = () => {
     const cssRoot = document.querySelector(":root");
     const curValue = parseInt(
       getComputedStyle(cssRoot).getPropertyValue("--rotate")
     );
-    console.log(document.body);
     document.body.classList.toggle("dark");
+    document.querySelector(".moon").classList.toggle("dark");
+    document.querySelector(".light").classList.toggle("dark");
     cssRoot.style.setProperty("--rotate", curValue + 180);
   };
-
+  const logOut = (e) => {
+    e.preventDefault();
+    localStorage.clear();
+    sessionStorage.clear();
+    setAccessToken();
+  };
   return (
     <>
       <header className="login-nav">
         <div className="header-container">
           <div className="header-item">
-            <Link to="/login">Sign in/Guest</Link>
-            <Link to="signup">Create Account</Link>
+            {accessToken ? (
+              <span className="user-name">Hello {user}</span>
+            ) : (
+              <Link to="/login">Sign in/Guest</Link>
+            )}
+            {accessToken ? (
+              <Link onClick={logOut}>Logout</Link>
+            ) : (
+              <Link to="signup">Create Account</Link>
+            )}
           </div>
         </div>
       </header>
@@ -55,7 +71,7 @@ export default function Navbar() {
                   fill="currentColor"
                   strokeWidth="0"
                   viewBox="0 0 16 16"
-                  className="dark swap-off h-4 w-4"
+                  className="dark moon swap-off h-4 w-4"
                   height="1em"
                   width="1em"
                   xmlns="http://www.w3.org/2000/svg"

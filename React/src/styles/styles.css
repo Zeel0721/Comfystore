@@ -48,7 +48,8 @@ body.dark {
   display: flex;
   justify-content: flex-end;
 }
-.header-item > a {
+.header-item > a,
+.user-name {
   padding: 8px 10px;
   font-size: 1.125rem;
   color: var(--grey-font);
@@ -133,12 +134,18 @@ body.dark {
   position: absolute;
   width: 18px;
   height: 18px;
+  transition: opacity 600ms ease-in-out;
 }
-.dark {
+.moon {
+  opacity: 0;
   top: 5%;
 }
 .light {
+  opacity: 0;
   bottom: 5%;
+}
+.dark {
+  opacity: 1;
 }
 #cart svg {
   width: 24px;
