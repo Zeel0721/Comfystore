@@ -1,11 +1,7 @@
 import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
 import { Request } from 'express';
 import { LoginDto } from 'src/DTO/login.dto';
-import {
-  JwtGuard,
-  LocalGuard,
-  RefreshJwtGuard,
-} from 'src/auth/utils/local.guard';
+import { JwtGuard, LocalGuard } from 'src/auth/utils/local.guard';
 
 @Controller('auth')
 export class AuthController {
@@ -19,7 +15,7 @@ export class AuthController {
   get(@Req() req: Request) {
     return req.user;
   }
-  @UseGuards(RefreshJwtGuard)
+  @UseGuards(JwtGuard)
   @Get('refresh')
   refresh(@Req() req: Request) {
     return req.user;

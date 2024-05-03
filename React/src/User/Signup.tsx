@@ -1,11 +1,15 @@
-import React from "react";
 import { Button, Form, Input } from "antd";
 import { Link } from "react-router-dom";
 import "../styles/user.css";
 import axios from "axios";
 
 export default function Signup() {
-  const submit = async (e) => {
+  const form: HTMLFormElement|null = document.getElementById("signup-form")as HTMLFormElement
+  const submit = async (e: {
+    username: string;
+    email: string;
+    password: string;
+  }) => {
     await axios
       .post("http://localhost:3000/user/signup", {
         username: e.username,
@@ -13,7 +17,7 @@ export default function Signup() {
         password: e.password,
       })
       .catch((error) => console.error(error));
-    document.getElementById("signup-form").reset();
+    form?.reset()
   };
   const inputStyle = { width: "275px", height: "35px" };
 

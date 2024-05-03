@@ -19,12 +19,3 @@ export class JwtGuard extends AuthGuard('jwt') {
     return super.canActivate(context);
   }
 }
-
-@Injectable()
-export class RefreshJwtGuard extends AuthGuard('jwt') {
-  canActivate(
-    context: ExecutionContext,
-  ): boolean | Promise<boolean> | Observable<boolean> {
-    return super.canActivate(context);
-  }
-}

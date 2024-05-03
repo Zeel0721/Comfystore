@@ -1,20 +1,19 @@
-import React from "react";
 import { Link, Outlet } from "react-router-dom";
 import { globalContext } from "./App";
 
 export default function Navbar() {
   const { accessToken, setAccessToken, user } = globalContext();
   const changeTheme = () => {
-    const cssRoot = document.querySelector(":root");
-    const curValue = parseInt(
+    const cssRoot = document.querySelector(":root") as HTMLElement;
+    const curValue: number = parseInt(
       getComputedStyle(cssRoot).getPropertyValue("--rotate")
     );
     document.body.classList.toggle("dark");
-    document.querySelector(".moon").classList.toggle("dark");
-    document.querySelector(".light").classList.toggle("dark");
-    cssRoot.style.setProperty("--rotate", curValue + 180);
+    document.querySelector(".moon")?.classList.toggle("dark");
+    document.querySelector(".light")?.classList.toggle("dark");
+    cssRoot?.style.setProperty("--rotate", (curValue + 180).toString());
   };
-  const logOut = (e) => {
+  const logOut = (e: any) => {
     e.preventDefault();
     localStorage.clear();
     sessionStorage.clear();
@@ -31,7 +30,7 @@ export default function Navbar() {
               <Link to="/login">Sign in/Guest</Link>
             )}
             {accessToken ? (
-              <Link onClick={logOut}>Logout</Link>
+              <Link to='' onClick={logOut}>Logout</Link>
             ) : (
               <Link to="signup">Create Account</Link>
             )}
