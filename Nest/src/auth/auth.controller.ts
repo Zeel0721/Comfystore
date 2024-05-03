@@ -1,26 +1,27 @@
-import {
-  Body,
-  Controller,
-  Get,
-  Post,
-  Session,
-  UseGuards,
-} from '@nestjs/common';
+import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
+import { Request } from 'express';
 import { LoginDto } from 'src/DTO/login.dto';
-import { LocalGuard } from 'src/utils/LocalGuard';
+import {
+  JwtGuard,
+  LocalGuard,
+  RefreshJwtGuard,
+} from 'src/auth/utils/local.guard';
 
 @Controller('auth')
 export class AuthController {
   @UseGuards(LocalGuard)
   @Post('login')
-  async login(@Body() login: LoginDto) {
-    return login.username;
+  async login(@Req() req: Request, @Body() login: LoginDto) {
+    return req.user;
   }
-
+  @UseGuards(JwtGuard)
   @Get('')
-  async getAuthSession(@Session() session: Record<string, any>) {
-    console.log(session.id);
-    session.authenticated = true;
-    return session;
+  get(@Req() req: Request) {
+    return req.user;
+  }
+  @UseGuards(RefreshJwtGuard)
+  @Get('refresh')
+  refresh(@Req() req: Request) {
+    return req.user;
   }
 }

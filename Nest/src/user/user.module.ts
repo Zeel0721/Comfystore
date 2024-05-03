@@ -3,6 +3,7 @@ import { UserController } from './user.controller';
 import { UserService } from './user.service';
 import { User, UserModel } from 'src/schema/user';
 import { MongooseModule } from '@nestjs/mongoose';
+import { token } from 'src/token';
 
 @Module({
   imports: [
@@ -16,7 +17,7 @@ import { MongooseModule } from '@nestjs/mongoose';
   controllers: [UserController],
   providers: [
     {
-      provide: 'USER_SERVICE',
+      provide: token.USER_SERVICE,
       useClass: UserService,
     },
   ],
