@@ -2,6 +2,7 @@ import { Link, Outlet } from "react-router-dom";
 import { globalContext } from "./App";
 
 export default function Navbar() {
+  const { setMode } = globalContext();
   const { accessToken, setAccessToken, user } = globalContext();
   const changeTheme = () => {
     const cssRoot = document.querySelector(":root") as HTMLElement;
@@ -11,6 +12,7 @@ export default function Navbar() {
     document.body.classList.toggle("dark");
     document.querySelector(".moon")?.classList.toggle("dark");
     document.querySelector(".light")?.classList.toggle("dark");
+    setMode((prev: string) => (prev === "light" ? "dark" : "light"));
     cssRoot?.style.setProperty("--rotate", (curValue + 180).toString());
   };
   const logOut = (e: any) => {
@@ -30,7 +32,9 @@ export default function Navbar() {
               <Link to="/login">Sign in/Guest</Link>
             )}
             {accessToken ? (
-              <Link to='' onClick={logOut}>Logout</Link>
+              <Link to="" onClick={logOut}>
+                Logout
+              </Link>
             ) : (
               <Link to="signup">Create Account</Link>
             )}
@@ -56,6 +60,12 @@ export default function Navbar() {
             </Link>
             <Link to="/cart" className="nav-item" id="cart">
               Cart
+            </Link>
+            <Link to="/checkout" className="nav-item" id="cart">
+              Checkout
+            </Link>
+            <Link to="/order" className="nav-item" id="cart">
+              Order
             </Link>
           </div>
           <div className="ui-links">

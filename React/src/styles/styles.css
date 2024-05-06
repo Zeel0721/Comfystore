@@ -14,6 +14,7 @@
   --greyblue-black: hsl(230, 100%, 93%);
   --white-black: hsl(0, 0%, 100%);
   --black-white: hsl(231, 15%, 18%);
+  --grey-back: hsl(214 30% 32% /0.2);
   --font-style: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
     Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans, sans-serif;
   --rotate: 0;
@@ -33,6 +34,7 @@ body.dark {
   --greyblue-black: hsl(327, 26%, 15%);
   --white-black: hsl(231, 15%, 18%);
   --black-white: hsl(0, 0%, 100%);
+  --grey-back: hsl(60 30% 96% / 0.2);
 }
 .login-nav {
   width: 100vw;
@@ -181,12 +183,14 @@ body.dark {
   border-radius: 20px;
   object-fit: cover;
 }
-.home-header-text {
+.home-header-text,
+.about-header-text {
   margin-top: 25px;
   font-size: 60px;
   font-family: var(--font-style);
 }
-.home-desctiption {
+.home-desctiption,
+.about-desctiption {
   color: var(--grey-white);
   width: 496px;
   height: 396px;
@@ -214,4 +218,31 @@ body.dark {
 .feature-header {
   padding-bottom: 5px;
   border-bottom: 1px solid var(--lightgrey-dark);
+}
+.about {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100vh;
+}
+.about-desctiption {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.about-header {
+  margin-top: 80px;
+  margin-bottom: 0;
+}
+.about-description-text {
+  width: 600px;
+  line-height: 1.9rem;
+  font-size: 1.2rem;
+}
+.app-logo {
+  font-size: 3rem;
+  padding: 5px 10px;
+  border-radius: 20px;
+  background-color: var(--blue-pink);
+  color: var(--greyblue-black);
 }

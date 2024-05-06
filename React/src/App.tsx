@@ -6,14 +6,29 @@ import Products from "./Store/Products";
 import Cart from "./Store/Cart";
 import Login from "./User/Login";
 import Signup from "./User/Signup";
-import { SetStateAction, createContext, useContext, useLayoutEffect, useState } from "react";
+import {
+  SetStateAction,
+  createContext,
+  useContext,
+  useLayoutEffect,
+  useState,
+} from "react";
 import axios from "axios";
 import { refreshAccessToken } from "./functions";
+import { Provider } from "react-redux";
+import { store } from "./store";
+import Order from "./Store/Order";
+import Checkout from "./Store/Checkout";
+import { ThemeProvider, createTheme } from "@mui/material";
 
-const GlobalContext = createContext<SetStateAction<any|null>|string|null>(null);
+const GlobalContext = createContext<SetStateAction<any | null> | string | null>(
+  null
+);
 export const globalContext = () => useContext(GlobalContext);
 
 export default function App() {
+  const [mode, setMode] = useState<"light" | "dark">("light");
+  const theme = createTheme({ palette: { mode: mode } });
   const [refreshToken, setRefreshToken] = useState(
     localStorage.getItem("refreshToken")
   );
@@ -26,7 +41,7 @@ export default function App() {
       if (!accessToken || accessToken == undefined) {
         const token = refreshAccessToken(refreshToken);
         setAccessToken(token);
-      } else if(accessToken) {
+      } else if (accessToken) {
         await axios
           .get("http://localhost:3000/auth", {
             headers: { Authorization: `Bearer ${accessToken}` },
@@ -38,17 +53,25 @@ export default function App() {
   }, [accessToken]);
 
   return (
-    <GlobalContext.Provider value={{ accessToken, setAccessToken, user }}>
-      <Routes>
-        <Route path="/" element={<Navbar />}>
-          <Route index element={<Home />} />
-          <Route path="About" element={<About />} />
-          <Route path="Products" element={<Products />} />
-          <Route path="Cart" element={<Cart />} />
-        </Route>
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
-      </Routes>
-    </GlobalContext.Provider>
+    <Provider store={store}>
+      <GlobalContext.Provider
+        value={{ accessToken, setAccessToken, user, setMode }}
+      >
+        <ThemeProvider theme={theme}>
+          <Routes>
+            <Route path="/" element={<Navbar />}>
+              <Route index element={<Home />} />
+              <Route path="About" element={<About />} />
+              <Route path="Products" element={<Products />} />
+              <Route path="Cart" element={<Cart />} />
+              <Route path="checkout" element={<Checkout />} />
+              <Route path="order" element={<Order />} />
+            </Route>
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
+          </Routes>
+        </ThemeProvider>
+      </GlobalContext.Provider>
+    </Provider>
   );
 }
