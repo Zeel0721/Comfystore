@@ -24,6 +24,7 @@ body {
   margin: 0;
   display: flex;
   font-family: var(--font-style);
+  background-color: var(--white-black);
 }
 body.dark {
   --dark-grey: hsl(230, 15%, 30%);
@@ -168,9 +169,10 @@ body.dark {
 .home-image {
   background-color: var(--dark-grey);
   display: flex;
+  align-items: center;
   gap: 16px;
   width: 550px;
-  height: 500px;
+  height: 480px;
   padding: 16px;
   border-radius: 20px;
   overflow: scroll;
@@ -178,10 +180,15 @@ body.dark {
 }
 .home-image img {
   display: block;
-  height: 470px;
-  width: 372px;
+  height: 450px;
+  width: 340px;
   border-radius: 20px;
   object-fit: cover;
+}
+.home-content-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
 }
 .home-header-text,
 .about-header-text {
@@ -211,11 +218,17 @@ body.dark {
 .feature-section {
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
   margin-top: 75px;
-  margin-left: 75px;
   color: var(--grey-white);
 }
 .feature-header {
+  width: 100%;
+  padding-inline: 30px;
+}
+.feature-header-container {
   padding-bottom: 5px;
   border-bottom: 1px solid var(--lightgrey-dark);
 }

@@ -7,6 +7,7 @@ import {
   Grid,
   InputLabel,
   MenuItem,
+  Pagination,
   Select,
   Slider,
   TextField,
@@ -15,28 +16,23 @@ import WindowIcon from "@mui/icons-material/Window";
 import DensityMediumIcon from "@mui/icons-material/DensityMedium";
 import "../styles/products.css";
 import Product from "./Product";
+import { useLayoutEffect, useState } from "react";
+import { getProduct } from "../functions";
+import { FilterOption } from "../types";
 
 export default function Products() {
+  const [products, setProducts] = useState<any[]>();
+  const [page, setPage] = useState<number>();
+  const [filterOptions, setFilterOptions] = useState<FilterOption>();
   const selectCategory = () => {};
   const inputControlStyle = { m: 1, width: 240 };
   const inputSize = "small";
-  const products = [
-    {
-      pic: `\\images\\Avant-Garde Lamp.webp`,
-      name: "Avant-Garde Lamp",
-      price: 179.99,
-    },
-    {
-      pic: `\\images\\Chic Chair.webp`,
-      name: "Chic Chair",
-      price: 339.99,
-    },
-    {
-      pic: `\\images\\Coffee Table.jpeg`,
-      name: "Coffee Table",
-      price: 179.99,
-    },
-  ];
+  useLayoutEffect(() => {
+    getProduct(setProducts, page, setFilterOptions);
+  }, [page]);
+  const pageChange = (_: any, page: number) => {
+    setPage(page);
+  };
 
   return (
     <div className="products">
@@ -46,7 +42,7 @@ export default function Products() {
             <Autocomplete
               freeSolo
               id="search-product"
-              options={["hey"]}
+              options={filterOptions ? filterOptions.name : [""]}
               size={inputSize}
               renderInput={(params) => (
                 <TextField
@@ -72,12 +68,18 @@ export default function Products() {
               size={inputSize}
               onChange={selectCategory}
             >
-              <MenuItem value={"All"}>All</MenuItem>
+              {filterOptions &&
+                filterOptions.category.map((category: any) => (
+                  <MenuItem key={category} value={category}>
+                    {category}
+                  </MenuItem>
+                ))}
+              {/* <MenuItem value={"All"}>All</MenuItem>
               <MenuItem value={"Tables"}>Tables</MenuItem>
               <MenuItem value={"Chairs"}>Chairs</MenuItem>
               <MenuItem value={"Kids"}>Kids</MenuItem>
               <MenuItem value={"Sofas"}>Sofas</MenuItem>
-              <MenuItem value={"Beds"}>Beds</MenuItem>
+              <MenuItem value={"Beds"}>Beds</MenuItem> */}
             </Select>
           </FormControl>
           <FormControl sx={inputControlStyle}>
@@ -92,12 +94,12 @@ export default function Products() {
               size={inputSize}
               onChange={selectCategory}
             >
-              <MenuItem value={"All"}>All</MenuItem>
-              <MenuItem value={"Modenza"}>Modenza</MenuItem>
-              <MenuItem value={"Luxora"}>Luxora</MenuItem>
-              <MenuItem value={"Artifex"}>Artifex</MenuItem>
-              <MenuItem value={"Comfora"}>Comfora</MenuItem>
-              <MenuItem value={"Homestead"}>Homestead</MenuItem>
+              {filterOptions &&
+                filterOptions.company.map((company: any) => (
+                  <MenuItem key={company} value={company}>
+                    {company}
+                  </MenuItem>
+                ))}
             </Select>
           </FormControl>
           <FormControl sx={inputControlStyle}>
@@ -171,12 +173,13 @@ export default function Products() {
         justifyContent="center"
         alignItems="center"
         container
-        columnGap={2}
+        gap={2}
       >
-        {products.map((item) => (
+        {products?.map((item: any) => (
           <Product key={item.name} item={item} />
         ))}
       </Grid>
+      <Pagination count={3} shape="rounded" onChange={pageChange} />
     </div>
   );
 }

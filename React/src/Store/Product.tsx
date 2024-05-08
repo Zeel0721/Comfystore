@@ -1,7 +1,7 @@
 import { Grid } from "@mui/material";
 
 interface item {
-  pic: string;
+  image: any;
   name: string;
   price: number;
 }
@@ -13,14 +13,17 @@ export default function Product({ item }: { item: item }) {
       justifyContent="center"
       alignItems="center"
       item
-      rowGap={3}
       container
     >
       <Grid item className="product-image">
-        <img src={item.pic} />
+        <img src={URL.createObjectURL(item.image)} />
       </Grid>
-      <Grid item>{item.name}</Grid>
-      <Grid item>${item.price}</Grid>
+      <Grid item className="product-name">
+        {item.name}
+      </Grid>
+      <Grid item className="product-price">
+        ${item.price}
+      </Grid>
     </Grid>
   );
 }
