@@ -1,4 +1,5 @@
 import axios from "axios";
+import { FilterOption, Products } from "./types";
 
 export function refreshAccessToken(refreshToken: string | null) {
   if (!refreshToken) return;
@@ -12,18 +13,25 @@ export function refreshAccessToken(refreshToken: string | null) {
     .catch((error) => console.error(error));
   return sessionStorage.getItem("accessToken");
 }
-export function getProduct(
-  setProduct: any,
-  page: number = 1,
-  setFilterOptions: any
+
+export function getFeaturedProduct(
+  setFeaturedProduct: (value: Products[]) => void
 ) {
-  axios.get(`http://localhost:3000/product/${page}`).then((value) => {
-    const products = value.data.map((item: any) => {
-      item.image = new Blob([new Uint8Array(item.image.data).buffer]);
-      return item;
-    });
+  axios
+    .get("http://localhost:3000/product/get")
+    .then((value) => {
+      setFeaturedProduct(value.data);
+    })
+    .catch((error) => console.error(error));
+}
+
+export function getFilterDetail(
+  setFilterOptions: (value: FilterOption) => void
+) {
+  axios.get("http://localhost:3000/product/getfilter").then((value) => {
+    const products = value.data;
     const name = products.map((item: any) => item.name);
-    const category = Array.from(
+    const category: string[] = Array.from(
       new Set(
         products
           .map((item: any) =>
@@ -34,22 +42,40 @@ export function getProduct(
           .flat()
       )
     );
-    const company = Array.from(
+    const company: string[] = Array.from(
       new Set(products.map((item: any) => item.company))
     );
-    setProduct(products);
+    category.unshift("all");
+    company.unshift("all");
     setFilterOptions({ name, category, company });
   });
 }
-export function getFeaturedProduct(setFeaturedProduct: any) {
-  axios
-    .get("http://localhost:3000/product/")
-    .then((value) => {
-      const products = value.data.map((item: any) => {
-        item.image = new Blob([new Uint8Array(item.image.data).buffer]);
-        return item;
-      });
-      setFeaturedProduct(products);
+
+export async function filterProduct(
+  setProduct: (value: Products[]) => void,
+  setTotal: (value: number) => void,
+  page: number,
+  categoryValue: string = "all",
+  companyValue: string = "all",
+  sortValue: string,
+  priceValue: number,
+  freeShipping: boolean,
+  searchValue?: string
+) {
+  await axios
+    .get(`http://localhost:3000/product/filter/`, {
+      params: {
+        page,
+        searchValue,
+        categoryValue,
+        companyValue,
+        sortValue,
+        priceValue,
+        freeShipping,
+      },
     })
-    .catch((error) => console.error(error));
+    .then((value) => {
+      setTotal(value.data.total);
+      setProduct(value.data.products);
+    });
 }

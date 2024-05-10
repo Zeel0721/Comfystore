@@ -10,7 +10,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 80px;
+  margin-top: 40px;
   width: 70vw !important;
   padding: 25px;
   background-color: var(--lightgrey-dark);
@@ -23,8 +23,11 @@
   justify-content: center;
   align-items: center;
 }
-.first-row * {
-  background-color: var(--white-black);
+.first-row svg {
+  fill: var(--black-white) !important;
+}
+.first-row input {
+  z-index: 1;
 }
 .first-row label {
   color: var(--grey-white);
@@ -35,15 +38,7 @@
 .price-range span {
   color: var(--grey-white);
 }
-.MuiSlider-track {
-  height: 15px !important;
-}
-.MuiSlider-rail,
-.MuiSlider-track,
-.MuiSlider-thumb {
-  background-color: var(--blue-pink) !important;
-  border: none !important;
-}
+
 .range-header,
 .range-footer {
   display: flex;
@@ -110,4 +105,7 @@
   border-radius: 20px;
   color: var(--grey-white);
   box-shadow: 0 0 15px -3px rgb(0 0 0 /0.3);
+}
+.page {
+  padding-bottom: 30px;
 }

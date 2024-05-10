@@ -7,6 +7,7 @@ import {
   ParseFilePipe,
   ParseIntPipe,
   Post,
+  Query,
   UploadedFile,
   UseInterceptors,
 } from '@nestjs/common';
@@ -15,6 +16,7 @@ import { diskStorage } from 'multer';
 import { Public } from 'src/global.decorator';
 import { ProductService } from './product.service';
 import { token } from 'src/token';
+import { Filter } from 'src/utils/filter.type';
 
 @Controller('product')
 export class ProductController {
@@ -46,17 +48,20 @@ export class ProductController {
   }
 
   @Public()
-  @Get('/:page')
-  findAll(@Param('page', ParseIntPipe) page: number) {
-    return this.productService
-      .findAll(page)
-      .limit(9)
-      .skip((page - 1) * 9);
+  @Get('getfilter')
+  fetchFilter() {
+    return this.productService.fetchFilter();
   }
 
   @Public()
-  @Get('')
+  @Get('get')
   findFeatured() {
     return this.productService.findFeatured();
+  }
+
+  @Public()
+  @Get('filter')
+  filterProduct(@Query() filterOptions: Filter) {
+    return this.productService.filterProduct(filterOptions);
   }
 }

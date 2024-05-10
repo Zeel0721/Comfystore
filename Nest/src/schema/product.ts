@@ -7,7 +7,7 @@ export class Product {
   @Prop()
   company: string;
   @Prop()
-  price: string;
+  price: number;
   @Prop()
   description: string;
   @Prop()
@@ -15,6 +15,6 @@ export class Product {
   @Prop()
   category: [];
   @Prop()
-  image: Buffer;
+  image: Blob;
 }
 export const ProductModel = SchemaFactory.createForClass(Product);

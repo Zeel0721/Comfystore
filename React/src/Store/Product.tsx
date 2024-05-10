@@ -16,7 +16,7 @@ export default function Product({ item }: { item: item }) {
       container
     >
       <Grid item className="product-image">
-        <img src={URL.createObjectURL(item.image)} />
+        <img src={`data:image/png;base64,${item.image}`} />
       </Grid>
       <Grid item className="product-name">
         {item.name}
