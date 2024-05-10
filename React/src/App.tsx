@@ -9,8 +9,10 @@ import Signup from "./User/Signup";
 import {
   SetStateAction,
   createContext,
+  useCallback,
   useContext,
   useLayoutEffect,
+  useMemo,
   useState,
 } from "react";
 import axios from "axios";
@@ -27,13 +29,16 @@ const GlobalContext = createContext<SetStateAction<any | null> | string | null>(
 export const globalContext = () => useContext(GlobalContext);
 
 export default function App() {
-  const [mode, setMode] = useState<"light" | "dark">("light");
+  const [mode, setMode] = useState<"light" | "dark">(
+    localStorage.getItem("theme")
+  );
   const theme = createTheme({ palette: { mode: mode } });
   const [refreshToken, setRefreshToken] = useState(
     localStorage.getItem("refreshToken")
   );
   const [accessToken, setAccessToken] = useState<string | null>();
   const [user, setUser] = useState();
+
   useLayoutEffect(() => {
     (async () => {
       setAccessToken(sessionStorage.getItem("accessToken"));
@@ -52,10 +57,29 @@ export default function App() {
     })();
   }, [accessToken]);
 
+  useLayoutEffect(() => {
+    changeTheme();
+  }, [mode]);
+
+  const changeTheme = useCallback(() => {
+    console.log(mode);
+    localStorage.setItem("theme", mode);
+    if (mode === "light") {
+      document.body.classList.remove("dark");
+      // document.querySelector(".moon")?.classList.toggle("dark");
+      // document.querySelector(".light")?.classList.toggle("dark");
+    }
+    if (mode === "dark") {
+      document.body.classList.add("dark");
+      // document.querySelector(".moon")?.classList.toggle("dark");
+      // document.querySelector(".light")?.classList.toggle("dark");
+    }
+  }, [mode]);
+
   return (
     <Provider store={store}>
       <GlobalContext.Provider
-        value={{ accessToken, setAccessToken, user, setMode }}
+        value={{ accessToken, setAccessToken, user, mode, setMode }}
       >
         <ThemeProvider theme={theme}>
           <Routes>

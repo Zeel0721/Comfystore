@@ -1,10 +1,13 @@
-import { Button, Form, Input } from "antd";
+import { Form, Input } from "antd";
 import { Link } from "react-router-dom";
 import "../styles/user.css";
 import axios from "axios";
+import { Button } from "@mui/material";
 
 export default function Signup() {
-  const form: HTMLFormElement|null = document.getElementById("signup-form")as HTMLFormElement
+  const form: HTMLFormElement | null = document.getElementById(
+    "signup-form"
+  ) as HTMLFormElement;
   const submit = async (e: {
     username: string;
     email: string;
@@ -17,7 +20,7 @@ export default function Signup() {
         password: e.password,
       })
       .catch((error) => console.error(error));
-    form?.reset()
+    form?.reset();
   };
   const inputStyle = { width: "275px", height: "35px" };
 
@@ -75,7 +78,7 @@ export default function Signup() {
         >
           <Input.Password style={inputStyle} />
         </Form.Item>
-        <Button id="signup-btn" type="primary" htmlType="submit">
+        <Button id="signup-btn" variant="contained" type="submit">
           Sign Up
         </Button>
         <Form.Item>
