@@ -13,10 +13,10 @@ import {
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
-import { Public } from 'src/global.decorator';
+import { Public } from 'global.decorator';
 import { ProductService } from './product.service';
-import { token } from 'src/token';
-import { Filter } from 'src/utils/filter.type';
+import { token } from 'token';
+import { Filter } from 'utils/filter.type';
 
 @Controller('product')
 export class ProductController {

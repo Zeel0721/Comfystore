@@ -3,8 +3,8 @@ import { InjectModel } from '@nestjs/mongoose';
 import { count } from 'console';
 import * as fs from 'fs';
 import { Model } from 'mongoose';
-import { Product } from 'src/schema/product';
-import { Filter } from 'src/utils/filter.type';
+import { Product } from 'schema/product';
+import { Filter } from 'utils/filter.type';
 
 @Injectable()
 export class ProductService {
