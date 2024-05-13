@@ -6,7 +6,12 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
-    "target": "ES2021",
+    "target": "esnext",
+    // "target": "ES2021",
+    //new start
+    "lib": ["esnext"],
+    "moduleResolution": "node",
+    //new end
     "sourceMap": true,
     "outDir": "./dist",
     "baseUrl": "./",
