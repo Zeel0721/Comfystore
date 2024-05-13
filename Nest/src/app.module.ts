@@ -6,7 +6,11 @@ import { ProductModule } from './product/product.module';
 
 @Module({
   imports: [
-    MongooseModule.forRoot('mongodb://localhost:27017/ComfyStore'),
+    MongooseModule.forRootAsync({
+      useFactory: () => ({
+        uri: 'mongodb://localhost:27017/ComfyStore',
+      }),
+    }),
     userModule,
     AuthModule,
     ProductModule,
