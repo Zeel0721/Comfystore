@@ -2,9 +2,9 @@ import { Module } from '@nestjs/common';
 import { ProductController } from './product.controller';
 import { ProductService } from './product.service';
 import { MulterModule } from '@nestjs/platform-express';
-import { token } from 'token';
+import { token } from 'src/token';
 import { MongooseModule } from '@nestjs/mongoose';
-import { Product, ProductModel } from 'schema/product';
+import { Product, ProductModel } from 'src/schema/product';
 
 @Module({
   imports: [
