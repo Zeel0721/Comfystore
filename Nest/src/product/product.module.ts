@@ -9,7 +9,6 @@ import { Product, ProductModel } from '../schema/product';
 @Module({
   imports: [
     MongooseModule.forFeature([{ name: Product.name, schema: ProductModel }]),
-    MulterModule.register({ dest: './images' }),
   ],
   controllers: [ProductController],
   providers: [
