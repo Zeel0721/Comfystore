@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import * as fs from 'fs';
 import { Model } from 'mongoose';
 import { Product } from '../schema/product';
 import { Filter } from '../utils/filter.type';
@@ -10,13 +9,6 @@ export class ProductService {
   constructor(
     @InjectModel(Product.name) private productModel: Model<Product>,
   ) {}
-
-  async imageUpload(file: Express.Multer.File) {
-    const imageData = fs.readFileSync(file.path);
-    return this.productModel
-      .find({ name: 'Wooden Shelves' })
-      .updateOne({ image: imageData });
-  }
 
   fetchFilter() {
     return this.productModel.find({}, 'name category company');

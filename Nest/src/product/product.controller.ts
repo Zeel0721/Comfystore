@@ -24,28 +24,6 @@ export class ProductController {
     @Inject(token.PRODUCT_SERVICE)
     private readonly productService: ProductService,
   ) {}
-  @Public()
-  @Post('upload')
-  @UseInterceptors(
-    FileInterceptor('image', {
-      storage: diskStorage({
-        destination: './images',
-        filename: (req, file, cb) => {
-          cb(null, file.originalname);
-        },
-      }),
-    }),
-  )
-  fileUpload(
-    @UploadedFile(
-      new ParseFilePipe({
-        validators: [new FileTypeValidator({ fileType: 'image' })],
-      }),
-    )
-    file: Express.Multer.File,
-  ) {
-    return this.productService.imageUpload(file);
-  }
 
   @Public()
   @Get('getfilter')
