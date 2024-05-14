@@ -1,26 +1,31 @@
 import { Link, Outlet } from "react-router-dom";
-import { globalContext } from "./App";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "./store";
+import { setAccessToken, setRefreshToken } from "./Features/token";
+import { setTheme } from "./Features/theme";
 
 export default function Navbar() {
-  const { mode, setMode } = globalContext();
-  const { accessToken, setAccessToken, user } = globalContext();
+  const mode = useSelector((state: RootState) => state.theme);
+  const user = useSelector((state: RootState) => state.user.username);
+  const accessToken = useSelector(
+    (state: RootState) => state.token.accessToken
+  );
+  const dispatch = useDispatch();
   const changeTheme = () => {
     const cssRoot = document.querySelector(":root") as HTMLElement;
     const curValue: number = parseInt(
       getComputedStyle(cssRoot).getPropertyValue("--rotate")
     );
     cssRoot?.style.setProperty("--rotate", (curValue + 360).toString());
-    setTimeout(
-      () => setMode((prev: string) => (prev === "light" ? "dark" : "light")),
-      100
-    );
+    setTimeout(() => dispatch(setTheme()), 100);
   };
 
   const logOut = (e: any) => {
     e.preventDefault();
     localStorage.removeItem("refreshToken");
     sessionStorage.removeItem("accessToken");
-    setAccessToken();
+    dispatch(setRefreshToken(null));
+    dispatch(setAccessToken(null));
   };
   return (
     <>

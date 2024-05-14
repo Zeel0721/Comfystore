@@ -1,21 +1,20 @@
 import { Form, Input } from "antd";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
-import { globalContext } from "../App";
 import { Button } from "@mui/material";
+import { useDispatch } from "react-redux";
+import { setAccessToken, setRefreshToken } from "../Features/token";
 
 export default function Login() {
-  const { setAccessToken }: { setAccessToken: (token: string | null) => void } =
-    globalContext();
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const inputStyle = { width: "275px", height: "35px" };
   const submit = async (e: { username: string; password: string }) => {
     axios
       .post("http://localhost:3000/auth/login", e)
       .then((value) => {
-        localStorage.setItem("refreshToken", value.data.refreshToken);
-        sessionStorage.setItem("accessToken", value.data.accessToken);
-        setAccessToken(sessionStorage.getItem("accessToken"));
+        dispatch(setRefreshToken(value.data.refreshToken));
+        dispatch(setAccessToken(value.data.accessToken));
         navigate("/");
       })
       .catch((error) => console.error(error.response.data.message));

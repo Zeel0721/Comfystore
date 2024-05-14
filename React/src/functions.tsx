@@ -1,8 +1,8 @@
 import axios from "axios";
 import { FilterOption, Products } from "./types";
 
-export function refreshAccessToken(refreshToken: string | null) {
-  if (!refreshToken) return;
+export function refreshAccessToken(refreshToken: string | null): string | null {
+  if (!refreshToken) return null;
   axios
     .get("http://localhost:3000/auth/refresh", {
       headers: { Authorization: `Bearer ${refreshToken}` },

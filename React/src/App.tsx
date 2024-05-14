@@ -6,79 +6,77 @@ import Products from "./Store/Products";
 import Cart from "./Store/Cart";
 import Login from "./User/Login";
 import Signup from "./User/Signup";
-import {
-  SetStateAction,
-  createContext,
-  useContext,
-  useLayoutEffect,
-  useState,
-} from "react";
+import { useLayoutEffect } from "react";
 import axios from "axios";
 import { refreshAccessToken } from "./functions";
 import Order from "./Store/Order";
 import Checkout from "./Store/Checkout";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
-
-const GlobalContext = createContext<SetStateAction<any | null> | string | null>(
-  null
-);
-export const globalContext = () => useContext(GlobalContext);
+import { useDispatch } from "react-redux";
+import { setUser } from "./Features/user";
+import { useSelector } from "react-redux";
+import { RootState } from "./store";
+import { setAccessToken } from "./Features/token";
 
 export default function App() {
-  const themeMode: "light" | "dark" = localStorage.getItem("theme") as
-    | "light"
-    | "dark";
-  const [mode, setMode] = useState<"light" | "dark">(themeMode);
-  const theme = createTheme({ palette: { mode: mode } });
-  const [refreshToken, setRefreshToken] = useState(
-    localStorage.getItem("refreshToken")
+  const accessToken = useSelector(
+    (state: RootState) => state.token.accessToken
   );
-  const [accessToken, setAccessToken] = useState<string | null>();
-  const [user, setUser] = useState();
+  const refreshToken = useSelector(
+    (state: RootState) => state.token.refreshToken
+  );
+  const themeMode = useSelector((state: RootState) => state.theme);
+  const dispatch = useDispatch();
+  const theme = createTheme({ palette: { mode: themeMode } });
+
+  useLayoutEffect(() => {
+    if (!accessToken || !refreshToken) return;
+    localStorage.setItem("refreshToken", refreshToken);
+    sessionStorage.setItem("accessToken", accessToken);
+  }, [accessToken, refreshToken]);
 
   useLayoutEffect(() => {
     (async () => {
-      setAccessToken(sessionStorage.getItem("accessToken"));
-      setRefreshToken(localStorage.getItem("refreshToken"));
       if (!accessToken || accessToken == undefined) {
+        if (!refreshToken) return;
         const token = refreshAccessToken(refreshToken);
-        setAccessToken(token);
+        dispatch(setAccessToken(token));
       } else if (accessToken) {
         await axios
           .get("http://localhost:3000/auth", {
             headers: { Authorization: `Bearer ${accessToken}` },
           })
-          .then((value) => setUser(value.data.username))
-          .catch((error) => error);
+          .then((value) => dispatch(setUser(value.data.username)))
+          .catch(() => {
+            if (!refreshToken) return;
+            const token = refreshAccessToken(refreshToken);
+            dispatch(setAccessToken(token));
+          });
       }
     })();
   }, [accessToken]);
 
   useLayoutEffect(() => {
-    localStorage.setItem("theme", mode);
-    mode === "light"
+    localStorage.setItem("theme", themeMode);
+    themeMode === "light"
       ? document.body.classList.remove("dark")
       : document.body.classList.add("dark");
-  }, [mode]);
+  }, [themeMode]);
 
   return (
-    <GlobalContext.Provider
-      value={{ accessToken, setAccessToken, user, mode, setMode }}
-    >
-      <ThemeProvider theme={theme}>
-        <Routes>
-          <Route path="/" element={<Navbar />}>
-            <Route index element={<Home />} />
-            <Route path="About" element={<About />} />
-            <Route path="Products" element={<Products />} />
-            <Route path="Cart" element={<Cart />} />
-            <Route path="checkout" element={<Checkout />} />
-            <Route path="order" element={<Order />} />
-          </Route>
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
-        </Routes>
-      </ThemeProvider>
-    </GlobalContext.Provider>
+    <ThemeProvider theme={theme}>
+      <Routes>
+        <Route path="/" element={<Navbar />}>
+          <Route index element={<Home />} />
+          <Route path="About" element={<About />} />
+          <Route path="Products" element={<Products />} />
+          <Route path="Cart" element={<Cart />} />
+          <Route path="checkout" element={<Checkout />} />
+          <Route path="order" element={<Order />} />
+        </Route>
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
+      </Routes>
+    </ThemeProvider>
   );
 }
