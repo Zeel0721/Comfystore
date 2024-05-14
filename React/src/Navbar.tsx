@@ -18,8 +18,8 @@ export default function Navbar() {
 
   const logOut = (e: any) => {
     e.preventDefault();
-    localStorage.clear();
-    sessionStorage.clear();
+    localStorage.removeItem("refreshToken");
+    sessionStorage.removeItem("accessToken");
     setAccessToken();
   };
   return (

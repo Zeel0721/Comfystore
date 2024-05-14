@@ -5,13 +5,12 @@ import { AuthService } from '../auth.service';
 import { token } from '../../token';
 
 @Injectable()
-export class LocalStartegy extends PassportStrategy(Strategy) {
+export class LocalStartegy extends PassportStrategy(Strategy, 'local') {
   constructor(
     @Inject(token.AUTH_SERVICE) private readonly authService: AuthService,
   ) {
     super();
   }
-
   async validate(username: string, password: string) {
     const { accessToken, refreshToken } = await this.authService.validateUser(
       username,

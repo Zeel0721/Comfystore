@@ -10,6 +10,9 @@ export class User {
 
   @Prop()
   password: string;
+
+  @Prop()
+  hashedRt?: string;
 }
 
 export const UserModel = SchemaFactory.createForClass(User);

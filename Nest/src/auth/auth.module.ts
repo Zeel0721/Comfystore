@@ -9,14 +9,13 @@ import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { token } from '../token';
 import { JwtStrategy } from './utils/jwt.strategy';
+import { JwtRefresh } from './utils/rt.strategy';
 
 @Module({
   imports: [
     MongooseModule.forFeature([{ name: User.name, schema: UserModel }]),
     PassportModule,
-    JwtModule.register({
-      secret: token.JWT_SECRET,
-    }),
+    JwtModule.register({}),
   ],
   controllers: [AuthController],
   providers: [
@@ -30,6 +29,7 @@ import { JwtStrategy } from './utils/jwt.strategy';
     },
     LocalStartegy,
     JwtStrategy,
+    JwtRefresh,
   ],
 })
 export class AuthModule {}

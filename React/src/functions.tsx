@@ -8,7 +8,8 @@ export function refreshAccessToken(refreshToken: string | null) {
       headers: { Authorization: `Bearer ${refreshToken}` },
     })
     .then((value) => {
-      sessionStorage.setItem("accessToken", value.data);
+      localStorage.setItem("refreshToken", value.data.refreshToken);
+      sessionStorage.setItem("accessToken", value.data.accessToken);
     })
     .catch((error) => console.error(error));
   return sessionStorage.getItem("accessToken");

@@ -15,11 +15,9 @@ import {
 } from "react";
 import axios from "axios";
 import { refreshAccessToken } from "./functions";
-import { Provider } from "react-redux";
-import { store } from "./store";
 import Order from "./Store/Order";
 import Checkout from "./Store/Checkout";
-import { ThemeProvider, createTheme } from "@mui/material";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
 
 const GlobalContext = createContext<SetStateAction<any | null> | string | null>(
   null
@@ -27,7 +25,9 @@ const GlobalContext = createContext<SetStateAction<any | null> | string | null>(
 export const globalContext = () => useContext(GlobalContext);
 
 export default function App() {
-  const themeMode: "light" | "dark" = localStorage.getItem("theme");
+  const themeMode: "light" | "dark" = localStorage.getItem("theme") as
+    | "light"
+    | "dark";
   const [mode, setMode] = useState<"light" | "dark">(themeMode);
   const theme = createTheme({ palette: { mode: mode } });
   const [refreshToken, setRefreshToken] = useState(
@@ -62,25 +62,23 @@ export default function App() {
   }, [mode]);
 
   return (
-    <Provider store={store}>
-      <GlobalContext.Provider
-        value={{ accessToken, setAccessToken, user, mode, setMode }}
-      >
-        <ThemeProvider theme={theme}>
-          <Routes>
-            <Route path="/" element={<Navbar />}>
-              <Route index element={<Home />} />
-              <Route path="About" element={<About />} />
-              <Route path="Products" element={<Products />} />
-              <Route path="Cart" element={<Cart />} />
-              <Route path="checkout" element={<Checkout />} />
-              <Route path="order" element={<Order />} />
-            </Route>
-            <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<Signup />} />
-          </Routes>
-        </ThemeProvider>
-      </GlobalContext.Provider>
-    </Provider>
+    <GlobalContext.Provider
+      value={{ accessToken, setAccessToken, user, mode, setMode }}
+    >
+      <ThemeProvider theme={theme}>
+        <Routes>
+          <Route path="/" element={<Navbar />}>
+            <Route index element={<Home />} />
+            <Route path="About" element={<About />} />
+            <Route path="Products" element={<Products />} />
+            <Route path="Cart" element={<Cart />} />
+            <Route path="checkout" element={<Checkout />} />
+            <Route path="order" element={<Order />} />
+          </Route>
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+        </Routes>
+      </ThemeProvider>
+    </GlobalContext.Provider>
   );
 }
