@@ -1,26 +1,18 @@
-import { Form, Input } from "antd";
+import { Button, Form, Input } from "antd";
 import { Link } from "react-router-dom";
 import "../styles/user.css";
-import axios from "axios";
-import { Button } from "@mui/material";
+import { useSignupMutation } from "../Features/userApi";
 
 export default function Signup() {
-  const form: HTMLFormElement | null = document.getElementById(
-    "signup-form"
-  ) as HTMLFormElement;
-  const submit = async (e: {
+  const [form] = Form.useForm();
+  const [signup] = useSignupMutation();
+  const submit = async (user: {
     username: string;
     email: string;
     password: string;
   }) => {
-    await axios
-      .post("http://localhost:3000/user/signup", {
-        username: e.username,
-        email: e.email,
-        password: e.password,
-      })
-      .catch((error) => console.error(error));
-    form?.reset();
+    await signup(user);
+    form.resetFields();
   };
   const inputStyle = { width: "275px", height: "35px" };
 
@@ -29,12 +21,13 @@ export default function Signup() {
       <Form
         name="signup"
         id="signup-form"
+        form={form}
         layout="vertical"
         onFinish={submit}
         autoComplete="off"
       >
-        <Form.Item className="signup-header">
-          <h1>Register</h1>
+        <Form.Item className="my-4">
+          <h1 className="text-3xl">Register</h1>
         </Form.Item>
         <Form.Item
           name="username"
@@ -78,7 +71,7 @@ export default function Signup() {
         >
           <Input.Password style={inputStyle} />
         </Form.Item>
-        <Button id="signup-btn" variant="contained" type="submit">
+        <Button id="signup-btn" type="primary" htmlType="submit">
           Sign Up
         </Button>
         <Form.Item>

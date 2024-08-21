@@ -1,23 +1,26 @@
-import { Form, Input } from "antd";
-import axios from "axios";
+import { Button, Form, Input } from "antd";
 import { Link, useNavigate } from "react-router-dom";
-import { Button } from "@mui/material";
 import { useDispatch } from "react-redux";
-import { setAccessToken, setRefreshToken } from "../Features/token";
+import { setAccessToken, setRefreshToken } from "../Features/tokenSlice";
+import { useLoginMutation } from "../Features/userApi";
+import { setUser } from "../Features/userSlice";
 
 export default function Login() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [login] = useLoginMutation();
+  const [form] = Form.useForm();
   const inputStyle = { width: "275px", height: "35px" };
-  const submit = async (e: { username: string; password: string }) => {
-    axios
-      .post("http://localhost:3000/auth/login", e)
+  const submit = async (user: { username: string; password: string }) => {
+    await login(user)
       .then((value) => {
         dispatch(setRefreshToken(value.data.refreshToken));
         dispatch(setAccessToken(value.data.accessToken));
+        dispatch(setUser(value.data.user));
         navigate("/");
       })
       .catch((error) => console.error(error.response.data.message));
+    form.resetFields();
   };
 
   return (
@@ -25,12 +28,13 @@ export default function Login() {
       <Form
         name="login"
         id="login-form"
+        form={form}
         onFinish={submit}
         autoComplete="off"
         layout="vertical"
       >
-        <Form.Item className="login-header">
-          <h1>Login</h1>
+        <Form.Item className="my-4">
+          <h1 className="text-3xl">Login</h1>
         </Form.Item>
         <Form.Item
           name="username"
@@ -59,16 +63,12 @@ export default function Login() {
         <Button
           id="login-btn"
           color="secondary"
-          variant="contained"
-          type="submit"
+          type="primary"
+          htmlType="submit"
         >
           Login
         </Button>
-        <Button
-          id="guest-btn"
-          variant="contained"
-          onClick={() => navigate("/")}
-        >
+        <Button id="guest-btn" onClick={() => navigate("/")}>
           Guest Login
         </Button>
         <Form.Item>

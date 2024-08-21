@@ -1,10 +1,9 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { token } from '../token';
-import { UserService } from '../user/user.service';
 import { comparePasswords, encodePassword } from '../auth/utils/bcrypt';
 import { InjectModel } from '@nestjs/mongoose';
-import { User } from 'src/schema/user';
+import { User } from '../schema/user';
 import { Model } from 'mongoose';
 
 @Injectable()
@@ -18,7 +17,10 @@ export class AuthService {
     return (await this.userModel.findOne({ username })).toObject();
   }
 
-  async validateUser(username: string, password: string) {
+  async validateUser(
+    username: string,
+    password: string,
+  ): Promise<{ accessToken: string; refreshToken: string; user: string }> {
     const userDB = await this.findUserByName(username);
     if (userDB) {
       const match = comparePasswords(password, userDB.password);
@@ -38,7 +40,7 @@ export class AuthService {
     if (!user) return null;
     return this.generateTokens(userDB);
   }
-  async generateTokens(userDB: any) {
+  async generateTokens(userDB: { password: string; username: string }) {
     const accessToken = this.jwtService.sign(
       { username: userDB.username },
       { secret: token.JWT_SECRET, expiresIn: 30 },
@@ -55,6 +57,7 @@ export class AuthService {
     return {
       accessToken,
       refreshToken,
+      user: userDB.username,
     };
   }
 }

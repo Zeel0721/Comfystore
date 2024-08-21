@@ -1,4 +1,4 @@
-import { Grid } from "@mui/material";
+import { Flex } from "antd";
 
 interface item {
   image: any;
@@ -7,23 +7,20 @@ interface item {
 }
 export default function Product({ item }: { item: item }) {
   return (
-    <Grid
-      className="item-container"
-      direction="column"
-      justifyContent="center"
-      alignItems="center"
-      item
-      container
+    <Flex
+      vertical
+      justify="space-around"
+      align="center"
+      className="pt-2 pb-6 shadow-lg rounded-2xl item-container"
     >
-      <Grid item className="product-image">
-        <img src={`data:image/png;base64,${item.image}`} />
-      </Grid>
-      <Grid item className="product-name">
-        {item.name}
-      </Grid>
-      <Grid item className="product-price">
-        ${item.price}
-      </Grid>
-    </Grid>
+      <div>
+        <img
+          className="w-80 h-48 rounded-xl object-cover"
+          src={`data:image/png;base64,${item.image}`}
+        />
+      </div>
+      <div className="pt-6 text-xl font-bold">{item.name}</div>
+      <div className="pt-3 font-medium">${item.price}</div>
+    </Flex>
   );
 }

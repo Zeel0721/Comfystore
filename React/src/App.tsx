@@ -7,16 +7,11 @@ import Cart from "./Store/Cart";
 import Login from "./User/Login";
 import Signup from "./User/Signup";
 import { useLayoutEffect } from "react";
-import axios from "axios";
-import { refreshAccessToken } from "./functions";
 import Order from "./Store/Order";
 import Checkout from "./Store/Checkout";
-import { ThemeProvider, createTheme } from "@mui/material/styles";
-import { useDispatch } from "react-redux";
-import { setUser } from "./Features/user";
 import { useSelector } from "react-redux";
 import { RootState } from "./store";
-import { setAccessToken } from "./Features/token";
+import RefreshToken from "./RefreshToken";
 
 export default function App() {
   const accessToken = useSelector(
@@ -26,35 +21,13 @@ export default function App() {
     (state: RootState) => state.token.refreshToken
   );
   const themeMode = useSelector((state: RootState) => state.theme);
-  const dispatch = useDispatch();
-  const theme = createTheme({ palette: { mode: themeMode } });
 
   useLayoutEffect(() => {
     if (!accessToken || !refreshToken) return;
+    console.log(accessToken, refreshToken);
     localStorage.setItem("refreshToken", refreshToken);
     sessionStorage.setItem("accessToken", accessToken);
   }, [accessToken, refreshToken]);
-
-  useLayoutEffect(() => {
-    (async () => {
-      if (!accessToken || accessToken == undefined) {
-        if (!refreshToken) return;
-        const token = refreshAccessToken(refreshToken);
-        dispatch(setAccessToken(token));
-      } else if (accessToken) {
-        await axios
-          .get("http://localhost:3000/auth", {
-            headers: { Authorization: `Bearer ${accessToken}` },
-          })
-          .then((value) => dispatch(setUser(value.data.username)))
-          .catch(() => {
-            if (!refreshToken) return;
-            const token = refreshAccessToken(refreshToken);
-            dispatch(setAccessToken(token));
-          });
-      }
-    })();
-  }, [accessToken]);
 
   useLayoutEffect(() => {
     localStorage.setItem("theme", themeMode);
@@ -63,8 +36,10 @@ export default function App() {
       : document.body.classList.add("dark");
   }, [themeMode]);
 
+  console.log(accessToken, refreshToken);
   return (
-    <ThemeProvider theme={theme}>
+    <>
+      <RefreshToken />
       <Routes>
         <Route path="/" element={<Navbar />}>
           <Route index element={<Home />} />
@@ -77,6 +52,6 @@ export default function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
       </Routes>
-    </ThemeProvider>
+    </>
   );
 }

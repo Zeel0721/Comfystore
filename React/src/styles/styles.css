@@ -1,4 +1,3 @@
-@import "https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap";
 @import "tailwindcss/base";
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
@@ -18,9 +17,7 @@
   --white-black: hsl(0, 0%, 100%);
   --black-white: hsl(231, 15%, 18%);
   --grey-back: hsl(214 30% 32% /0.2);
-  --font-style: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
-    Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans, sans-serif;
-  --rotate: 0;
+  --font-style: "Segoe UI";
 }
 body {
   overflow-x: hidden;
@@ -41,18 +38,7 @@ body.dark {
   --grey-back: hsl(60 30% 96% / 0.2);
 }
 .login-nav {
-  width: 100vw;
   background-color: var(--dark-grey);
-}
-.header-container {
-  display: flex;
-  margin-inline: 250px;
-  justify-content: center;
-}
-.header-item {
-  width: 100%;
-  display: flex;
-  justify-content: flex-end;
 }
 .header-item > a,
 .user-name {
@@ -67,35 +53,17 @@ body.dark {
   text-decoration: underline;
 }
 .nav {
-  width: 100vw;
   background-color: var(--lightgrey-dark);
-}
-.nav a {
-  user-select: none;
-}
-.nav-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-inline: 210px;
-  padding-block: 12px;
 }
 .nav-container a {
   font-family: var(--font-style);
   font-weight: 600;
 }
 .logo {
-  padding: 6px 18px;
   background-color: var(--blue-pink);
-  border-radius: 10px;
 }
 .logo a {
-  font-size: 30px;
   color: var(--greyblue-black);
-  cursor: pointer;
-}
-.nav-links {
-  display: flex;
 }
 .nav-links a {
   padding: 10px 14px;
@@ -108,12 +76,6 @@ body.dark {
   background-color: var(--dark-grey);
   color: var(--grey-font);
 }
-.ui-links {
-  position: relative;
-  display: flex;
-  align-items: center;
-  overflow: hidden;
-}
 .ui-links svg {
   fill: var(--black-white);
 }
@@ -121,59 +83,18 @@ body.dark {
   all: unset;
   padding: 10px;
 }
-#toggle-theme {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  transform: rotate(calc(var(--rotate) * 1deg));
-  transition: transform 100ms ease-in-out;
-}
-#toggle-theme svg {
-  width: 18px;
-  height: 18px;
-}
-.moon {
-  top: 5%;
-}
-.light {
-  bottom: 5%;
-}
-#cart svg {
-  width: 24px;
-  height: 24px;
-}
 .store-section {
   background-color: var(--white-black);
-  height: 100%;
-}
-.home {
-  padding-block: 80px;
-  margin-inline: 150px;
-  padding-inline: 25px;
-}
-.home-main {
-  display: flex;
-  justify-content: space-around;
 }
 .home-image {
   background-color: var(--dark-grey);
-  display: flex;
-  align-items: center;
-  gap: 16px;
   width: 550px;
   height: 480px;
-  padding: 16px;
-  border-radius: 20px;
-  overflow: scroll;
   scrollbar-width: none;
 }
 .home-image-container img {
-  display: block;
-  max-width: none;
   height: 450px;
   width: 340px;
-  border-radius: 20px;
-  object-fit: cover;
 }
 .home-content-container {
   width: 100%;
@@ -182,10 +103,7 @@ body.dark {
   justify-content: center;
   align-items: center;
 }
-.home-header-text,
-.about-header-text {
-  margin-top: 25px;
-  font-size: 60px;
+.home-header-text {
   font-family: var(--font-style);
 }
 .home-desctiption,
@@ -193,10 +111,6 @@ body.dark {
   color: var(--grey-white);
   width: 496px;
   height: 396px;
-}
-.home-description-text {
-  font-size: 20px;
-  line-height: 32px;
 }
 #product-btn {
   all: unset;
@@ -208,48 +122,18 @@ body.dark {
   font-weight: bold;
 }
 .feature-section {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  margin-top: 75px;
   color: var(--grey-white);
 }
-.feature-header {
-  width: 100%;
-  padding-inline: 30px;
-}
 .feature-header-container {
-  padding-bottom: 5px;
   border-bottom: 1px solid var(--lightgrey-dark);
 }
-.about {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  height: 100vh;
-}
-.about-desctiption {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
 .about-header {
-  margin-top: 80px;
-  margin-bottom: 0;
+  font-family: var(--font-style);
 }
 .about-description-text {
-  text-align: center;
-  margin-top: 20px;
   width: 685px;
-  line-height: 1.9rem;
-  font-size: 1.2rem;
 }
 .app-logo {
-  font-size: 3rem;
-  padding: 5px 10px;
-  border-radius: 20px;
   background-color: var(--blue-pink);
   color: var(--greyblue-black);
 }

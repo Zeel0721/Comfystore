@@ -12,13 +12,11 @@ export class LocalStartegy extends PassportStrategy(Strategy, 'local') {
     super();
   }
   async validate(username: string, password: string) {
-    const { accessToken, refreshToken } = await this.authService.validateUser(
-      username,
-      password,
-    );
+    const { accessToken, refreshToken, user } =
+      await this.authService.validateUser(username, password);
     if (!refreshToken) {
       throw new UnauthorizedException();
     }
-    return { accessToken, refreshToken };
+    return { accessToken, refreshToken, user };
   }
 }

@@ -1,27 +1,12 @@
 .products {
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
   background-color: var(--white-black);
 }
 .filter-product {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 40px;
-  width: 70vw !important;
-  padding: 25px;
   background-color: var(--lightgrey-dark);
-  border-radius: 10px;
-  gap: 30px;
 }
-.first-row,
-.second-row {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.filter-product > div {
+  margin-bottom: 0;
+  margin: 8px;
 }
 .first-row svg {
   fill: var(--black-white) !important;
@@ -32,24 +17,6 @@
 .first-row label {
   color: var(--grey-white);
 }
-.filter-product div {
-  border-radius: 10px;
-}
-.price-range span {
-  color: var(--grey-white);
-}
-
-.range-header,
-.range-footer {
-  display: flex;
-  justify-content: space-between;
-}
-.range-footer {
-  font-weight: bold;
-}
-.free-shipping label {
-  color: var(--grey-white);
-}
 .btn {
   background-color: var(--lightgrey-dark);
 }
@@ -57,14 +24,8 @@
   background-color: var(--blue-pink);
 }
 .product-control {
-  margin-top: 40px;
-  width: 70vw;
-  display: flex;
-  justify-content: space-between;
   color: var(--grey-white);
-  font-weight: bold;
-  padding-bottom: 15px;
-  border-bottom: 1px solid var(--lightgrey-dark);
+  border-color: var(--lightgrey-dark);
 }
 .product-display-control button {
   all: unset;
@@ -77,35 +38,7 @@
 .product-display-control svg {
   display: flex;
 }
-.product-grid-container {
-  max-width: 1200px;
-  margin: 0 !important;
-  padding-block: 50px !important;
-}
-.product-image {
-  width: fit-content;
-}
-.product-image img {
-  width: 320px;
-  height: 192px;
-  border-radius: 10px;
-  object-fit: cover;
-}
-.product-name {
-  font-size: 1.3rem;
-  font-weight: bold;
-  padding-top: 25px;
-}
-.product-price {
-  padding-top: 10px;
-}
 .item-container {
-  width: 360px !important;
-  padding-block: 15px 30px !important;
-  border-radius: 20px;
+  width: 350px;
   color: var(--grey-white);
-  box-shadow: 0 0 15px -3px rgb(0 0 0 /0.3);
-}
-.page {
-  padding-bottom: 30px;
 }

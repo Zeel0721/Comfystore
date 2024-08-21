@@ -1,8 +1,8 @@
 import { Link, Outlet } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "./store";
-import { setAccessToken, setRefreshToken } from "./Features/token";
-import { setTheme } from "./Features/theme";
+import { clearToken } from "./Features/tokenSlice";
+import { setTheme } from "./Features/themeSlice";
 
 export default function Navbar() {
   const mode = useSelector((state: RootState) => state.theme);
@@ -12,11 +12,8 @@ export default function Navbar() {
   );
   const dispatch = useDispatch();
   const changeTheme = () => {
-    const cssRoot = document.querySelector(":root") as HTMLElement;
-    const curValue: number = parseInt(
-      getComputedStyle(cssRoot).getPropertyValue("--rotate")
-    );
-    cssRoot?.style.setProperty("--rotate", (curValue + 360).toString());
+    const themeSvg = document.querySelector(".theme-svg") as HTMLElement;
+    themeSvg.classList.toggle("animate-theme-spin");
     setTimeout(() => dispatch(setTheme()), 100);
   };
 
@@ -24,14 +21,13 @@ export default function Navbar() {
     e.preventDefault();
     localStorage.removeItem("refreshToken");
     sessionStorage.removeItem("accessToken");
-    dispatch(setRefreshToken(null));
-    dispatch(setAccessToken(null));
+    dispatch(clearToken());
   };
   return (
     <>
       <header className="login-nav">
-        <div className="header-container">
-          <div className="header-item">
+        <div className="mx-52">
+          <div className="w-full flex justify-end header-item">
             {accessToken ? (
               <span className="user-name">Hello {user}</span>
             ) : (
@@ -47,14 +43,14 @@ export default function Navbar() {
           </div>
         </div>
       </header>
-      <nav className="nav">
-        <div className="nav-container">
-          <div className="logo">
-            <Link to="/" className="nav-item" id="logo">
+      <nav className="w-screen nav">
+        <div className="flex justify-between items-center py-3 mx-52 nav-container">
+          <div className="rounded-xl py-1.5 px-4 logo">
+            <Link to="/" className="text-3xl cursor-pointer nav-item" id="logo">
               C
             </Link>
           </div>
-          <div className="nav-links">
+          <div className="flex nav-links">
             <Link to="/" className="nav-item active" id="home">
               Home
             </Link>
@@ -74,7 +70,7 @@ export default function Navbar() {
               Order
             </Link>
           </div>
-          <div className="ui-links">
+          <div className="flex items-center overflow-hidden ui-links">
             <div className="theme-switch">
               <button
                 className="nav-btn"
@@ -87,7 +83,7 @@ export default function Navbar() {
                     fill="currentColor"
                     strokeWidth="0"
                     viewBox="0 0 16 16"
-                    className="moon swap-off h-4 w-4"
+                    className="theme-svg moon swap-off h-4 w-4"
                     height="1em"
                     width="1em"
                     xmlns="http://www.w3.org/2000/svg"
@@ -101,7 +97,7 @@ export default function Navbar() {
                     fill="currentColor"
                     strokeWidth="0"
                     viewBox="0 0 16 16"
-                    className="light swap-on h-4 w-4"
+                    className="theme-svg light swap-on h-4 w-4"
                     height="1em"
                     width="1em"
                     xmlns="http://www.w3.org/2000/svg"
@@ -128,7 +124,7 @@ export default function Navbar() {
           </div>
         </div>
       </nav>
-      <section className="store-section">
+      <section className="h-full store-section">
         <Outlet />
       </section>
     </>

@@ -1,18 +1,4 @@
-import {
-  Controller,
-  FileTypeValidator,
-  Get,
-  Inject,
-  Param,
-  ParseFilePipe,
-  ParseIntPipe,
-  Post,
-  Query,
-  UploadedFile,
-  UseInterceptors,
-} from '@nestjs/common';
-import { FileInterceptor } from '@nestjs/platform-express';
-import { diskStorage } from 'multer';
+import { Controller, Get, Inject, Query } from '@nestjs/common';
 import { Public } from '../global.decorator';
 import { ProductService } from './product.service';
 import { token } from '../token';

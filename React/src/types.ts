@@ -9,7 +9,6 @@ export interface Products {
 }
 
 export interface FilterOption {
-  name: string[];
   category: string[];
   company: string[];
 }

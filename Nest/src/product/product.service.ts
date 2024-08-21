@@ -10,25 +10,22 @@ export class ProductService {
     @InjectModel(Product.name) private productModel: Model<Product>,
   ) {}
 
-  fetchFilter() {
-    return this.productModel.find({}, 'name category company');
+  async fetchFilter() {
+    const company = await this.productModel.distinct('company');
+    const category = await this.productModel.distinct('category', {
+      category: { $nin: ['example', 'featured'] },
+    });
+    return { company, category };
   }
 
-  findFeatured() {
-    return this.productModel.find({
+  async findFeatured() {
+    return await this.productModel.find({
       category: { $in: ['example', 'featured'] },
     });
   }
 
   async filterProduct(filterOptions: Filter) {
-    const {
-      page,
-      searchValue: search,
-      categoryValue: category,
-      companyValue: company,
-      sortValue: sort,
-      priceValue: price,
-    } = filterOptions;
+    const { page, search, category, company, sort, price } = filterOptions;
     const filterQuery = {
       name: search ? search : { $ne: search },
       category:
@@ -39,7 +36,7 @@ export class ProductService {
         company === 'all' || !company
           ? { $nin: [company] }
           : { $in: [company] },
-      price: { $lte: parseInt(price) },
+      price: price ? { $lte: parseInt(price) } : { $ne: 0 },
     };
     const products = await this.productModel
       .find(filterQuery)

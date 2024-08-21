@@ -1,9 +1,23 @@
-export interface Filter {
+import { IsOptional } from 'class-validator';
+
+export class Filter {
   page: number;
-  searchValue: string;
-  categoryValue: string;
-  companyValue: string;
-  sortValue: string;
-  priceValue: string;
-  freeShipping: boolean;
+
+  @IsOptional()
+  search?: string;
+
+  @IsOptional()
+  category?: string;
+
+  @IsOptional()
+  company?: string;
+
+  @IsOptional()
+  sort?: string;
+
+  @IsOptional()
+  price?: string;
+
+  @IsOptional()
+  freeShipping?: boolean;
 }
